@@ -1,0 +1,12 @@
+version: 0.3.0
+name: out/zipped_historical_predictions.ind
+type: file
+hash: 63681347c743d1dcc0f08d76b4f5de48
+time: 2019-10-16 16:06:30 UTC
+depends:
+  tmp/historical_predictions.ind: 7aeef55b0947ff434d5c677aab335abd
+fixed: 472a0398c52a750ee2228b44def9edf8
+code:
+  functions:
+    zip_grouped_hashed_files: b385a9f7cc4df744abfb3fd011ff1297
+

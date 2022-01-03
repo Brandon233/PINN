@@ -1,0 +1,93 @@
+read wingRun.frd
+view edge off
+
+### DEFORMATION
+text deformation
+view disp
+rot -y
+ds 1 e 3
+flpc
+
+#mark BCs
+seta nodes n all
+enq nodes x0 rec 0 _ _
+plus n x0 r
+
+frame
+hcpy png
+sys mv hcpy_1.png wing_deform.png
+
+### MIESES TRESS
+flpc
+text Mieses stress buttom
+view disp off
+rot y
+rot u 90
+ds 2 e 7
+#min 0 f
+
+#mark BCs
+seta nodes n all
+enq nodes x0 rec 0 _ _ 0.1
+plus n x0 r
+
+frame
+hcpy png
+sys mv hcpy_2.png wing_mieses_buttom.png
+text Mieses stress top
+rot u 180
+frame
+hcpy png
+sys mv hcpy_3.png wing_mieses_top.png
+
+### FIXED MISES MAX STRESS
+
+#mark BCs plus some space (threshold) to skip singularity at BC
+seta whole n all
+enq whole thresh rec 0 _ _ 0.3
+seta relev n all
+setr relev n thresh
+seto relev
+enq relev out set relev 0. h
+sys mv enq_lc2_e7_1.out max_stress_fixed.out
+
+### MESH
+view surf
+view elem
+
+#mark BCs
+seta nodes n all
+enq nodes x0 rec 0 _ _ 0.01
+plus n x0 r
+
+frame
+hcpy png
+sys mv hcpy_4.png wing_mesh_top.png
+
+
+seta orig all
+copy orig cp1 tra 0 0 -3
+
+ds 2 e 7
+view elem off
+view edge on
+plot ld all
+plus ev orig
+
+
+#mark BCs
+seta n3 n cp1
+enq n3 bc rec 0 _ _ 0.1
+plus n bc r
+
+rot d 90
+rot l 40
+rot u 30
+frame
+zoom 1.3
+
+
+hcpy png
+sys mv hcpy_5.png wing_mieses_plus_struct.png
+
+quit
